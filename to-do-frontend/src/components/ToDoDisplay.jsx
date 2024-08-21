@@ -1,40 +1,36 @@
+export function DisplayToDo({tasksArr,setTasksArr}){
 
-export const ToDoDisplay = ({ tasksArr, setTasksArr }) => {
-  function handleDeleteBtn(delTaskContent) {
-    const afterDeleteArr = tasksArr.filter(
-      (currTask) => currTask.content === delTaskContent
-    );
-    setTasksArr(afterDeleteArr);
-  }
+    function handleDeleteBtn(deletingTask){
+        const updatedDeleteTaskArr=tasksArr.filter(currTask=>currTask.content!=deletingTask.content);
+        setTasksArr(updatedDeleteTaskArr);
+    }
 
-  function handleMarkBtn(markDownTask) {
-    const updatedArr = tasksArr.map((currTask) => {
-      if (currTask.content == markDownTask.content) {
-        return { ...currTask, checked: !currTask.checked };
-      } else {
-        return currTask;
-      }
-    });
-    setTasksArr(updatedArr);
-  }
+    function handleMarkBtn(markingTask){
+        const updateTask = tasksArr.map((currTask) => {
+            if (currTask.content == markingTask.content) {
+              return { ...currTask, checked: !currTask.checked };
+            } else {
+              return currTask;
+            }
+          });
+          setTasksArr(updateTask);
+    }
 
-  return (
-    <div className="displaydiv">
-      {tasksArr.map((currTask) => {
-        return (
-          <div className="innerdiv" key={currTask.content}>
-            <span className={`${currTask.checked ? "check" : "nocheck"}`}>
-              {currTask.content}
-            </span>
-            <div className="">
-              <button onClick={() => handleDeleteBtn(currTask.content)}>
-                del
-              </button>
-              <button onClick={() => handleMarkBtn(currTask)}>M</button>
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
+    function handleClearAllBtn(){
+        setTasksArr([]);
+    }
+
+
+    return( <ul className={`myUnOrdList todo-container`}>{
+        tasksArr.map((currTask)=>{
+            return( <li key={currTask.id} className={`todo-list todo-item`}>
+                <span className={`${currTask.checked ? "checkList" : "notCheckList"}`}>{currTask.content}</span>
+                {/* <span style={{ textDecoration: currTask.checked ? "line-through" : "none" }}>{currTask.content}</span> */}
+                <button onClick={()=>handleDeleteBtn(currTask)} className="delete-btn">D</button>
+                <button onClick={()=>handleMarkBtn(currTask)} className="check-btn">M</button>
+            </li> );
+        })
+        }
+        <button onClick={handleClearAllBtn} className="clear-btn">Clear All</button>
+    </ul> );
+}
