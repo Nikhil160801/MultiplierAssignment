@@ -1,3 +1,5 @@
+import "./ToDo.css"
+
 export function DisplayToDo({tasksArr,setTasksArr}){
 
     function handleDeleteBtn(deletingTask){
